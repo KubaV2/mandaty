@@ -1,7 +1,9 @@
 package com.pirko.mandaty.controller;
 
 import com.pirko.mandaty.model.Mandate;
+import com.pirko.mandaty.model.Offense;
 import com.pirko.mandaty.model.Person;
+import com.pirko.mandaty.repository.OffenseRepository;
 import com.pirko.mandaty.service.MandateService;
 import com.pirko.mandaty.service.PersonService;
 import lombok.RequiredArgsConstructor;
@@ -19,11 +21,14 @@ public class MandateController {
 
     private final MandateService mandateService;
     private final PersonService personService;
+    private final OffenseRepository offenseRepository;
 
     @GetMapping("/wystaw")
     public String getMandateCreateForm(Model model) {
         Mandate mandate = new Mandate();
+        List<Offense> offenses = offenseRepository.findAll();
         model.addAttribute("mandate", mandate);
+        model.addAttribute("offenses", offenses);
         return "mandate/create";
     }
 

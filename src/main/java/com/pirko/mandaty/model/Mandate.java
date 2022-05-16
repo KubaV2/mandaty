@@ -11,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -27,8 +28,8 @@ public class Mandate {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @PastOrPresent
     private LocalDateTime dateTime = LocalDateTime.now();
-    @Size(min = 1, max = 100, message = "Maksymalna długość nazwy wykroczenia to 100 znaków")
-    private String offense;
+    @OneToMany
+    private List<Offense> offense;
     @Max(value = 15, message = "Maksymalna ilość punktów dla wykroczenia to 15")
     @Min(value = 1, message = "Minimalna ilość punktów dla wykroczenia to 1")
     private Integer points;
