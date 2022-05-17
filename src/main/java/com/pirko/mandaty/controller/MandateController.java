@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -33,7 +34,7 @@ public class MandateController {
     }
 
     @PostMapping("/wystaw")
-    public String saveMandate(Mandate mandate) {
+    public String saveMandate(@Valid Mandate mandate) {
         Person person = personService.findPersonByPesel(mandate.getPesel());
         personService.addMandate(person, mandate);
         mandateService.save(mandate);

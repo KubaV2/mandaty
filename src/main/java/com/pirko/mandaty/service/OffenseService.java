@@ -16,4 +16,6 @@ public class OffenseService {
     public List<Offense> findAll(){
         return offenseRepository.findAll();
     }
+
+
 }

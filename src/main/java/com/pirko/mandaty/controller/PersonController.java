@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -25,7 +26,7 @@ public class PersonController {
     }
 
     @PostMapping("/dodaj")
-    public String savePerson(Person person) {
+    public String savePerson(@Valid Person person) {
         personService.save(person);
         return "redirect:/osoba";
     }

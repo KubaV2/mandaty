@@ -20,10 +20,10 @@ public class Offense {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String offense;
+    private String description;
 
     public Offense(String offense) {
-        this.offense = offense;
+        this.description = offense;
     }
 
 }
