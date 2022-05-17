@@ -53,16 +53,14 @@
             <h1>Wystaw mandat</h1>
             <hr>
             <form action="#" th:action="@{/mandat/wystaw}" th:object="${mandate}" method="post">
-                <input type="text" th:field="*{pesel}" required placeholder="Podaj numer PESEL"
+                <input type="number" th:min="0" th:max="99999999999" th:field="*{pesel}" required placeholder="Podaj numer PESEL"
                        class="form-control mb-4 col-1">
-                <select class="form-control" id="offense" name="parts" multiple="multiple">
-                    <option th:each="offense : ${offenses}"
-                            th:value="${offense.id}"
-                            th:text="${offense.offense}">Wykroczenie</option>
+                <select name="offense" multiple="multiple" required>
+                    <option th:each="offense : ${offenses}" th:text="${offense.description}" th:value="${offense.id}"></option>
                 </select>
-                <input type="text" th:field="*{points}" required placeholder="Podaj ilość punktów za wykroczenie"
+                <input type="number" th:min="0" th:max="15" th:field="*{points}" required placeholder="Podaj ilość punktów za wykroczenie"
                        class="form-control mb-4 col-1">
-                <input type="text" th:field="*{amount}" required placeholder="Wpisz kwotę kary za wykroczenie"
+                <input type="number" th:min="0" th:max="5000" th:field="*{amount}" required placeholder="Wpisz kwotę kary za wykroczenie"
                        class="form-control mb-4 col-1">
                 <button type="submit" class="btn btn-primary col-2"> Zapisz</button>
             </form>

@@ -62,10 +62,6 @@
                         PESEL</a>
                 </th>
                 <th>
-                    <a th:href="@{'/mandat/page/' + ${currentPage} + '?sortField=offense&sortDir=' + ${reverseSortDir}}">
-                        Wykroczenie</a>
-                </th>
-                <th>
                     <a th:href="@{'/mandat/page/' + ${currentPage} + '?sortField=dateTime&sortDir=' + ${reverseSortDir}}">
                         Data i czas</a>
                 </th>
@@ -84,7 +80,6 @@
             <tr th:each="mandate : ${listMandates}">
                 <td th:text="${mandate.id}"></td>
                 <td th:text="${mandate.pesel}"></td>
-                <td th:text="${mandate.offense}"></td>
                 <td th:text="${mandate.dateTime}"></td>
                 <td th:text="${mandate.points}"></td>
                 <td th:text="${mandate.amount}"></td>

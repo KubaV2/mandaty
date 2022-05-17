@@ -53,13 +53,13 @@
             <h1>Dodaj osobę</h1>
             <hr>
             <form action="#" th:action="@{/osoba/dodaj}" th:object="${person}" method="post">
-                <input type="text" th:field="*{pesel}" required placeholder="Numer PESEL"
+                <input type="number" th:min="0" th:max="99999999999" th:field="*{pesel}" required placeholder="Numer PESEL"
                        class="form-control mb-4 col-4">
-                <input type="text" th:field="*{firstName}" required placeholder="Imię"
+                <input type="text" th:maxlength="20" th:field="*{firstName}" required placeholder="Imię"
                        class="form-control mb-4 col-4">
-                <input type="text" th:field="*{lastName}" required placeholder="Nazwisko"
+                <input type="text" th:maxlength="20" th:field="*{lastName}" required placeholder="Nazwisko"
                        class="form-control mb-4 col-4">
-                <input type="text" th:field="*{email}" required placeholder="Adres e-mail"
+                <input type="email" th:maxlength="50" th:field="*{email}" required placeholder="Adres e-mail"
                        class="form-control mb-4 col-4">
                 <button type="submit" class="btn btn-primary col-2"> Dodaj</button>
             </form>

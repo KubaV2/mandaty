@@ -1,14 +1,13 @@
 package com.pirko.mandaty.model;
 
 import com.pirko.mandaty.validation.IsName;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.pl.PESEL;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
@@ -16,21 +15,27 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Length(min = 1, max = 11, message = "Maksymalna długość numeru PESEL to 11 cyfr.")
+    @NotBlank(message = "Podaj poprawny numer PESEL")
     @PESEL(message = "Niepoprawny numer PESEL")
     private String pesel;
-    @IsName
+    @IsName(message = "Poprawny format imienia to pierwsza duża litera oraz reszta małych (max 20 znaków)")
     private String firstName;
-    @IsName
+    @IsName(message = "Poprawny format nazwiska to pierwsza duża litera oraz reszta małych (max 20 znaków)")
     private String lastName;
+    @NotBlank(message = "Wprowadź poprawny adres email np. example@wp.pl")
     @Email(message = "Wprowadź poprawny adres email np. example@wp.pl")
+    @Length(min = 1, max = 50, message = "Maksymalna długość adresu e-mail to 50 znaków.")
     private String email;
     @OneToMany
     @JoinColumn(name = "person_id", nullable = false, unique = true)
     private List<Mandate> mandates;
+
 
 }
