@@ -5,6 +5,7 @@ import com.pirko.mandaty.model.Offense;
 import com.pirko.mandaty.model.Person;
 import com.pirko.mandaty.repository.OffenseRepository;
 import com.pirko.mandaty.service.MandateService;
+import com.pirko.mandaty.service.OffenseService;
 import com.pirko.mandaty.service.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/mandat")
@@ -22,12 +24,12 @@ public class MandateController {
 
     private final MandateService mandateService;
     private final PersonService personService;
-    private final OffenseRepository offenseRepository;
+    private final OffenseService offenseService;
 
     @GetMapping("/wystaw")
     public String getMandateCreateForm(Model model) {
         Mandate mandate = new Mandate();
-        List<Offense> offenses = offenseRepository.findAll();
+        Map<String, List<Offense>> offenses = offenseService.offenseByGroup();
         model.addAttribute("mandate", mandate);
         model.addAttribute("offenses", offenses);
         return "mandate/create";
