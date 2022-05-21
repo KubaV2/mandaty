@@ -1,5 +1,6 @@
 package com.pirko.mandaty.service;
 
+import com.pirko.mandaty.exception.PersonExistException;
 import com.pirko.mandaty.model.Mandate;
 import com.pirko.mandaty.repository.MandateRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,11 @@ public class MandateService {
     private final MandateRepository mandateRepository;
 
     public Mandate save(Mandate mandate) {
-        return mandateRepository.save(mandate);
+        if (mandateRepository.findMandateById(mandate.getId()).isPresent()) {
+            throw new PersonExistException("Ten mandat jest już w bazie danych");
+        } else {
+            return mandateRepository.save(mandate);
+        }
     }
 
     public List<Mandate> findAll() {
@@ -27,9 +32,11 @@ public class MandateService {
     }
 
     public void deleteById(Long id) {
-        if (mandateRepository.findMandateById(id).isEmpty()) {
+        if (mandateRepository.findMandateById(id).isPresent()) {
             mandateRepository.deleteById(id);
-        } else throw new EntityNotFoundException("Brak mandatu o ID " + id);
+        } else {
+            throw new EntityNotFoundException("Nie można wykonać operacji usuwania. Brak mandatu o ID " + id);
+        }
     }
 
     public Page<Mandate> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {

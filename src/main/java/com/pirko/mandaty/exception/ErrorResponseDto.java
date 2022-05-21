@@ -9,7 +9,7 @@ public class ErrorResponseDto {
 
     private String message;
 
-    public static ErrorResponseDto fromException(Exception exception) {
+    public static ErrorResponseDto fromException(RuntimeException exception) {
         return ErrorResponseDto.builder()
                 .message(exception.getMessage())
                 .build();

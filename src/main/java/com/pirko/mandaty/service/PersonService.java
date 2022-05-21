@@ -27,7 +27,9 @@ public class PersonService {
     public Person save(Person person) {
         if (personRepository.findPersonByPesel(person.getPesel()).isEmpty()) {
             return personRepository.save(person);
-        } else throw new PersonExistException("Osoba numerze pesel " + person.getPesel() + " już istnieje!");
+        } else {
+            throw new PersonExistException("Osoba numerze pesel " + person.getPesel() + " już istnieje!");
+        }
     }
 
     public List<Person> findAll() {
@@ -35,35 +37,46 @@ public class PersonService {
     }
 
     public void deleteById(Long id) {
-        if (personRepository.findPersonById(id).isEmpty()) {
+        if (personRepository.findPersonById(id).isPresent()) {
             personRepository.deleteById(id);
-        } else throw new EntityNotFoundException("Brak osoby o ID " + id);
+        } else {
+            throw new EntityNotFoundException("Nie można wykonać operacji usuwania. Brak osoby o ID " + id);
+        }
     }
 
     public Person findPersonByPesel(String pesel) {
-        return personRepository.findPersonByPesel(pesel).orElseThrow(
-                () -> new EntityNotFoundException("Brak osoby z numerem PESEL: " + pesel + " w bazie danych."));
+        return personRepository.findPersonByPesel(pesel)
+                .orElseThrow(() -> new EntityNotFoundException("Brak osoby z numerem PESEL: " + pesel + " w bazie danych."));
     }
 
     public Page<Person> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
-        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
-                Sort.by(sortField).descending();
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
+                Sort.by(sortField).ascending() : Sort.by(sortField).descending();
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
         return this.personRepository.findAll(pageable);
     }
 
     public void addMandate(Person person, Mandate mandate) {
-        if (personHasMoreThanMaxPointsPerYear(person)) {
-            throw new TooManyPointsException(person.getFirstName() + " " + person.getLastName()
-                    + " ma już przekroczoną dozwoloną liczbę punktów karnych.");
-        } else if (!person.getMandates().contains(mandate)) {
-            person.getMandates().add(mandate);
+        if (person == null) {
+            throw new EntityNotFoundException("Nie można wystawić mandatu, brak podanej osoby w bazie danych");
+        }
+        if (mandate == null) {
+            throw new EntityNotFoundException("Nie można wystawić mandatu, brak podanego mandatu w bazie danych");
         }
 
+        if (personHasMoreThanMaxPointsPerYear(person)) {
+            throw new TooManyPointsException(person.getFirstName() + " " + person.getLastName()
+                    + " ma już przekroczoną dozwoloną liczbę punktów karnych, sprawa musi trafić do sądu.");
+        }
         if (isItAboveMaxPointsPerYear(person, mandate.getPoints())) {
-            mailService.sendEmail(person, "UWAGA! Przekroczony dopuszczalny limit punktów karnych",
-                    "W związku z przekroczeniem dozwolonej ilości punktów karnych(" +
+            mailService.sendEmail(person.getEmail(), "UWAGA! Przekroczony dopuszczalny limit punktow karnych",
+                    "W zwiazku z przekroczeniem dozwolonej ilosci punktow karnych(" +
                             MAX_POINTS_PER_YEAR + ") odebrano ci prawo jazdy.");
+        }
+        if (!person.getMandates().contains(mandate)) {
+            person.getMandates().add(mandate);
+            Integer points = person.getPoints() + mandate.getPoints();
+            person.setPoints(points);
         }
     }
 
@@ -76,6 +89,9 @@ public class PersonService {
     }
 
     public Integer countPointsFromCurrentYear(Person person) {
+        if (person == null) {
+            throw new EntityNotFoundException("Nie można policzyć ilości punktów w danym roku. Brak podanej osoby w bazie danych");
+        }
         return person.getMandates().stream()
                 .filter(mandate -> mandate.getDateTime().getYear() == LocalDateTime.now().getYear())
                 .map(Mandate::getPoints)

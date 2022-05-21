@@ -1,7 +1,7 @@
 --liquibase formatted sql
 --changeset jpirko:5
-insert into person(id, pesel, first_name, last_name, email) values (1, '49102431442', 'Jan', 'Nowak', 'nowak@gmail.com');
-insert into person(id, pesel, first_name, last_name, email) values (2, '94051913613', 'Andrzej', 'Duda', 'pis@gmail.com');
+insert into person(id, pesel, first_name, last_name, email, points) values (1, '49102431442', 'Jan', 'Nowak', 'nowak@gmail.com', 0);
+insert into person(id, pesel, first_name, last_name, email, points) values (2, '94051913613', 'Andrzej', 'Duda', 'pis@gmail.com', 0);
 insert into offense(id, optgroup, description) values (1,  'Zasady ogólne i przepisy porządkowe' ,'Zajmowanie więcej niż jednego, wyznaczonego na jezdni, pasa ruchu');
 insert into offense(id, optgroup, description) values (2,  'Zasady ogólne i przepisy porządkowe' ,'Naruszenie obowiązku poruszania się po poboczu przez kierującego pojazdem zaprzęgowym, rowerem, wózkiem rowerowym, motorowerem, wózkiem ręcznym albo osobę prowadzącą pojazd napędzany silnikiem');
 insert into offense(id, optgroup, description) values (3,  'Zasady ogólne i przepisy porządkowe' ,'Nieustąpienie miejsca nadjeżdżającemu pojazdowi szynowemu przez kierującego pojazdem');

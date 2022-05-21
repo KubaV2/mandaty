@@ -1,9 +1,6 @@
 package com.pirko.mandaty.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.validator.constraints.pl.PESEL;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,26 +16,32 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Mandate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank(message = "Podaj poprawny numer PESEL")
+
     @PESEL(message = "Niepoprawny numer PESEL")
     private String pesel;
+
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    @PastOrPresent
+    @PastOrPresent(message = "Mandat nie może mieć przyszłej daty wystawienia")
+    @NotNull(message = "Data nie może być pusta")
     private LocalDateTime dateTime = LocalDateTime.now();
+
     @OneToMany
     private List<Offense> offenses;
+
     @Max(value = 15, message = "Maksymalna ilość punktów dla wykroczenia to 15")
     @Min(value = 0, message = "Minimalna ilość punktów dla wykroczenia to 1")
-    @NotNull(message = "Podaj poprawną ilość punktów")
+    @NotNull(message = "Ilośc punktów nie może być pusta")
     private Integer points;
+
     @DecimalMax(value = "5000", message = "Maksymalna kwota mandatu to 5000 pln")
     @DecimalMin(value = "0", message = "Minimalna kwota mandatu to 1 pln")
-    @NotNull(message = "Podaj poprawną kwotę")
+    @NotNull(message = "Kwota nie może być pusta")
     private BigDecimal amount;
 
 }
