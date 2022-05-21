@@ -7,5 +7,6 @@ CREATE TABLE `person`
     `first_name` varchar(45) NOT NULL,
     `last_name`  varchar(45) NOT NULL,
     `email`      varchar(45) NOT NULL,
+    `points`     int         NOT NULL,
     PRIMARY KEY (`id`)
 )

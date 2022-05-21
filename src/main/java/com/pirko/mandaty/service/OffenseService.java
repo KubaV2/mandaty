@@ -19,8 +19,9 @@ public class OffenseService {
         return offenseRepository.findAll();
     }
 
-    public Map<String, List<Offense>> offenseByGroup(){
-        return findAll().stream().collect(Collectors.groupingBy(Offense::getOptgroup));
+    public Map<String, List<Offense>> findOffenseByGroup(){
+        return findAll().stream()
+                .collect(Collectors.groupingBy(Offense::getOptgroup));
     }
 
 }

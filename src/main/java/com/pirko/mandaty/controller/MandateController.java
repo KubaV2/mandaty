@@ -3,7 +3,6 @@ package com.pirko.mandaty.controller;
 import com.pirko.mandaty.model.Mandate;
 import com.pirko.mandaty.model.Offense;
 import com.pirko.mandaty.model.Person;
-import com.pirko.mandaty.repository.OffenseRepository;
 import com.pirko.mandaty.service.MandateService;
 import com.pirko.mandaty.service.OffenseService;
 import com.pirko.mandaty.service.PersonService;
@@ -29,7 +28,7 @@ public class MandateController {
     @GetMapping("/wystaw")
     public String getMandateCreateForm(Model model) {
         Mandate mandate = new Mandate();
-        Map<String, List<Offense>> offenses = offenseService.offenseByGroup();
+        Map<String, List<Offense>> offenses = offenseService.findOffenseByGroup();
         model.addAttribute("mandate", mandate);
         model.addAttribute("offenses", offenses);
         return "mandate/create";
