@@ -26,13 +26,13 @@ public class ControllerAdvice {
 
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponseDto handleEntityNotFound(EntityNotFoundException exception) {
+    public ErrorResponseDto handleEntityNotFoundException(EntityNotFoundException exception) {
         return ErrorResponseDto.fromException(exception);
     }
 
     @ExceptionHandler({PersonExistException.class, TooManyPointsException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponseDto handlePersonExistAndTooManyPointsException(PersonExistException exception) {
+    public ErrorResponseDto handlePersonExistAndTooManyPointsException(RuntimeException exception) {
         return ErrorResponseDto.fromException(exception);
     }
 

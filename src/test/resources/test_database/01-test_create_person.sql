@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset jpirko:1
+--changeset test:1
 CREATE TABLE `person`
 (
     `id`         int         NOT NULL AUTO_INCREMENT,

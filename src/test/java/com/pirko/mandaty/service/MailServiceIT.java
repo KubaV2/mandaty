@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -26,11 +27,11 @@ public class MailServiceIT {
 
     @Test
     void shouldSendMail() throws MessagingException {
-
+        //when
         mailService.sendEmail("test@adress.com", "test_subject", "test_text");
         MimeMessage[] emails = greenMail.getReceivedMessages();
-
         MimeMessage receivedMessage = emails[0];
+        //then
         assertEquals(1, emails.length);
         assertEquals("test@adress.com", receivedMessage.getAllRecipients()[0].toString());
         assertEquals("test_subject", receivedMessage.getSubject());

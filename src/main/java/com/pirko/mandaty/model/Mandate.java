@@ -31,7 +31,7 @@ public class Mandate {
     @NotNull(message = "Data nie może być pusta")
     private LocalDateTime dateTime = LocalDateTime.now();
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Offense> offenses;
 
     @Max(value = 15, message = "Maksymalna ilość punktów dla wykroczenia to 15")

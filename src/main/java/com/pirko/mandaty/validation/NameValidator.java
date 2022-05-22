@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public class NameValidator implements ConstraintValidator<IsName, String> {
 
-    private static final Pattern namePattern = Pattern.compile("[A-Z][a-z]{1,19}");
+    private static final Pattern namePattern = Pattern.compile("[A-Z][a-z]{1,45}");
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
