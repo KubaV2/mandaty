@@ -13,6 +13,8 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
     <link href="/static/css/styles.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 </head>
 <body>
 <!-- Navigation-->
@@ -54,24 +56,28 @@
             <thead>
             <tr>
                 <th>
-                    <a th:href="@{'/osoba/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}}">
+                    <a th:href="@{'/karani/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}}">
                         ID</a>
                 </th>
                 <th>
-                    <a th:href="@{'/osoba/page/' + ${currentPage} + '?sortField=pesel&sortDir=' + ${reverseSortDir}}">
+                    <a th:href="@{'/karani/page/' + ${currentPage} + '?sortField=pesel&sortDir=' + ${reverseSortDir}}">
                         PESEL</a>
                 </th>
                 <th>
-                    <a th:href="@{'/osoba/page/' + ${currentPage} + '?sortField=firstName&sortDir=' + ${reverseSortDir}}">
+                    <a th:href="@{'/karani/page/' + ${currentPage} + '?sortField=firstName&sortDir=' + ${reverseSortDir}}">
                         Imie</a>
                 </th>
                 <th>
-                    <a th:href="@{'/osoba/page/' + ${currentPage} + '?sortField=lastName&sortDir=' + ${reverseSortDir}}">
+                    <a th:href="@{'/karani/page/' + ${currentPage} + '?sortField=lastName&sortDir=' + ${reverseSortDir}}">
                         Nazwisko</a>
                 </th>
                 <th>
-                    <a th:href="@{'/osoba/page/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir}}">
+                    <a th:href="@{'/karani/page/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir}}">
                         E-Mail</a>
+                </th>
+                <th>
+                    <a th:href="@{'/karani/page/' + ${currentPage} + '?sortField=points&sortDir=' + ${reverseSortDir}}">
+                        Ilość punktów karnych</a>
                 </th>
             </tr>
             </thead>
@@ -82,6 +88,7 @@
                 <td th:text="${person.firstName}"></td>
                 <td th:text="${person.lastName}"></td>
                 <td th:text="${person.email}"></td>
+                <td th:text="${person.points}"></td>
             </tr>
             </tbody>
         </table>

@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset jpirko:2
+--changeset test:2
 CREATE TABLE `mandate`
 (
     `id`        int            NOT NULL AUTO_INCREMENT,

@@ -21,18 +21,15 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Length(min = 1, max = 11, message = "Maksymalna długość numeru PESEL to 11 cyfr.")
-    @NotBlank(message = "Podaj poprawny numer PESEL")
     @PESEL(message = "Niepoprawny numer PESEL")
     private String pesel;
 
-    @IsName(message = "Poprawny format imienia to pierwsza duża litera oraz reszta małych (max 20 znaków)")
+    @IsName(message = "Poprawny format imienia to pierwsza duża litera oraz reszta małych (max 45 znaków)")
     private String firstName;
 
-    @IsName(message = "Poprawny format nazwiska to pierwsza duża litera oraz reszta małych (max 20 znaków)")
+    @IsName(message = "Poprawny format nazwiska to pierwsza duża litera oraz reszta małych (max 45 znaków)")
     private String lastName;
 
-    @NotBlank(message = "Wprowadź poprawny adres email np. example@wp.pl")
     @Email(message = "Wprowadź poprawny adres email np. example@wp.pl")
     @Length(min = 1, max = 50, message = "Maksymalna długość adresu e-mail to 50 znaków.")
     private String email;

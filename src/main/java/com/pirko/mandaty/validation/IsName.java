@@ -11,10 +11,9 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = NameValidator.class)
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@NotBlank
 public @interface IsName {
 
-    String message() default "Poprawny format to pierwsza duża litera oraz reszta małych (max 20 znaków)";
+    String message() default "Poprawny format to pierwsza duża litera oraz reszta małych (max 45 znaków)";
 
     Class<?>[] groups() default {};
 

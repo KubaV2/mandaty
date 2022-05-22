@@ -26,7 +26,11 @@ public class PersonService {
 
     public Person save(Person person) {
         if (personRepository.findPersonByPesel(person.getPesel()).isEmpty()) {
-            return personRepository.save(person);
+            if (personRepository.findPersonById(person.getId()).isEmpty()) {
+                return personRepository.save(person);
+            } else {
+                throw new PersonExistException("Osoba ID " + person.getId() + " już istnieje!");
+            }
         } else {
             throw new PersonExistException("Osoba numerze pesel " + person.getPesel() + " już istnieje!");
         }
@@ -60,6 +64,7 @@ public class PersonService {
         if (person == null) {
             throw new EntityNotFoundException("Nie można wystawić mandatu, brak podanej osoby w bazie danych");
         }
+
         if (mandate == null) {
             throw new EntityNotFoundException("Nie można wystawić mandatu, brak podanego mandatu w bazie danych");
         }
@@ -68,11 +73,13 @@ public class PersonService {
             throw new TooManyPointsException(person.getFirstName() + " " + person.getLastName()
                     + " ma już przekroczoną dozwoloną liczbę punktów karnych, sprawa musi trafić do sądu.");
         }
+
         if (isItAboveMaxPointsPerYear(person, mandate.getPoints())) {
             mailService.sendEmail(person.getEmail(), "UWAGA! Przekroczony dopuszczalny limit punktow karnych",
                     "W zwiazku z przekroczeniem dozwolonej ilosci punktow karnych(" +
                             MAX_POINTS_PER_YEAR + ") odebrano ci prawo jazdy.");
         }
+
         if (!person.getMandates().contains(mandate)) {
             person.getMandates().add(mandate);
             Integer points = person.getPoints() + mandate.getPoints();

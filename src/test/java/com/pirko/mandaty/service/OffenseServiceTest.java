@@ -23,13 +23,12 @@ public class OffenseServiceTest {
     @InjectMocks
     private OffenseService offenseService;
 
-
     @Test
     void shouldReturnListOfOffenses() {
         //given
         List<Offense> offenses = List.of(
-                new Offense(1L,"wykroczenie", "za szybka jazda"),
-                new Offense(2L,"wykroczenie","potracenie"));
+                new Offense(1L, "wykroczenie", "za szybka jazda"),
+                new Offense(2L, "wykroczenie", "potracenie"));
         when(offenseRepository.findAll()).thenReturn(offenses);
         //when
         List<Offense> loadedList = offenseService.findAll();
@@ -40,8 +39,8 @@ public class OffenseServiceTest {
     @Test
     void shouldReturnMapWithObjectsSortedByGroup() {
         //given
-        List<Offense> offenses = List.of(new Offense(1L,"wykroczenie", "za szybka jazda"),
-                new Offense(2L,"wykroczenie","potracenie"));
+        List<Offense> offenses = List.of(new Offense(1L, "wykroczenie", "za szybka jazda"),
+                new Offense(2L, "wykroczenie", "potracenie"));
         when(offenseRepository.findAll()).thenReturn(offenses);
         //when
         Map<String, List<Offense>> offensesMap = offenseService.findOffenseByGroup();

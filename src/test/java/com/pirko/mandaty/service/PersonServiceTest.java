@@ -47,6 +47,19 @@ public class PersonServiceTest {
     }
 
     @Test
+    void shouldReturnPersonExistExceptionWhenPersonWithSameIdExist() {
+        //given
+        Person somePerson1 = new Person(1L, "12345678912", "Jan", "Nowak", "nowak@wp.pl", 0, new ArrayList<>());
+        Person somePerson2 = new Person(1L, "12345123451", "Jan", "Nowak", "nowak@wp.pl", 0, new ArrayList<>());
+        when(personRepository.findPersonById(somePerson1.getId())).thenReturn(Optional.of(somePerson1));
+        //when
+        PersonExistException ex = assertThrows(
+                PersonExistException.class, () -> personService.save(somePerson2));
+        //then
+        assertTrue(ex.getMessage().contains("Osoba ID " + somePerson1.getId() + " już istnieje!"));
+    }
+
+    @Test
     void shouldReturnPersonExistExceptionWhenPersonWithSamePeselExist() {
         //given
         Person somePerson1 = new Person(1L, "12345678912", "Jan", "Nowak", "nowak@wp.pl", 0, new ArrayList<>());
