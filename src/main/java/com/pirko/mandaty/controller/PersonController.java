@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,7 +27,10 @@ public class PersonController {
     }
 
     @PostMapping("/dodaj")
-    public String savePerson(@Valid Person person) {
+    public String savePerson(@Valid Person person, BindingResult result) {
+        if (result.hasErrors()) {
+            return "person/create";
+        }
         personService.save(person);
         return "redirect:/osoba";
     }

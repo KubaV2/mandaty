@@ -55,9 +55,10 @@
             <h1>Wystaw mandat</h1>
             <hr>
             <form action="#" th:action="@{/mandat/wystaw}" th:object="${mandate}" method="post">
-                <input type="number" th:min="0" th:max="99999999999" th:field="*{pesel}" required
-                       placeholder="Podaj numer PESEL"
+                <input type="number" th:min="0" th:max="99999999999" th:field="*{pesel}" required placeholder="Podaj numer PESEL"
                        class="form-control mb-4 col-4">
+                <p class="alert alert-danger" th:if="${#fields.hasErrors('pesel')}"  th:errors="*{pesel}"></p>
+
                 <select  name="offense" multiple size="8" required>
                     <optgroup th:each="offense : ${offenses}" th:label="${offense.key}">
                         <option class="text-wrap" th:each="option : ${offense.value}" th:label="${option.description}"
@@ -65,12 +66,18 @@
                         </option>
                     </optgroup>
                 </select>
+                <p class="alert alert-danger" th:if="${#fields.hasErrors('offenses')}" th:errors="*{offenses}"></p>
+
                 <input style="margin-top: 20px; width: 1200px" type="number" th:min="0" th:max="15" th:field="*{points}" required
                        placeholder="Podaj ilość punktów za wykroczenie"
                        class="form-control mb-4 col-4">
+                <p class="alert alert-danger" th:if="${#fields.hasErrors('points')}" th:errors="*{points}"></p>
+
                 <input type="number" th:min="0" th:max="5000" th:field="*{amount}" required
                        placeholder="Wpisz kwotę kary za wykroczenie"
                        class="form-control mb-4 col-4">
+                <p class="alert alert-danger" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></p>
+
                 <button type="submit" class="btn btn-primary col-2"> Zapisz</button>
             </form>
         </div>

@@ -35,12 +35,12 @@ public class Mandate {
     private List<Offense> offenses;
 
     @Max(value = 15, message = "Maksymalna ilość punktów dla wykroczenia to 15")
-    @Min(value = 0, message = "Minimalna ilość punktów dla wykroczenia to 1")
+    @Min(value = 0, message = "Minimalna ilość punktów dla wykroczenia to 0")
     @NotNull(message = "Ilośc punktów nie może być pusta")
     private Integer points;
 
     @DecimalMax(value = "5000", message = "Maksymalna kwota mandatu to 5000 pln")
-    @DecimalMin(value = "0", message = "Minimalna kwota mandatu to 1 pln")
+    @DecimalMin(value = "0", message = "Minimalna kwota mandatu to 0 pln")
     @NotNull(message = "Kwota nie może być pusta")
     private BigDecimal amount;
 

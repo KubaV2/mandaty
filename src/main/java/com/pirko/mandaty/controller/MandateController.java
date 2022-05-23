@@ -1,5 +1,6 @@
 package com.pirko.mandaty.controller;
 
+import ch.qos.logback.classic.pattern.ThrowableHandlingConverter;
 import com.pirko.mandaty.model.Mandate;
 import com.pirko.mandaty.model.Offense;
 import com.pirko.mandaty.model.Person;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -29,13 +31,18 @@ public class MandateController {
     public String getMandateCreateForm(Model model) {
         Mandate mandate = new Mandate();
         Map<String, List<Offense>> offenses = offenseService.findOffenseByGroup();
-        model.addAttribute("mandate", mandate);
         model.addAttribute("offenses", offenses);
+        model.addAttribute("mandate", mandate);
         return "mandate/create";
     }
 
     @PostMapping("/wystaw")
-    public String saveMandate(@Valid Mandate mandate) {
+    public String saveMandate(@Valid Mandate mandate, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            Map<String, List<Offense>> offenses = offenseService.findOffenseByGroup();
+            model.addAttribute("offenses", offenses);
+            return "mandate/create";
+        }
         Person person = personService.findPersonByPesel(mandate.getPesel());
         personService.addMandate(person, mandate);
         mandateService.save(mandate);

@@ -51,6 +51,16 @@ public class MandateControllerIT {
     }
 
     @Test
+    void shouldReturn2xxStatusWhenAddMandateIsNotSuccesfullyBecauseReturnNewHtmlViewWithException() throws Exception {
+        //when
+        ResponseEntity<String> response = ResponseEntityCreator.createForMandate(
+                "", "",
+                "", "", "", createServerAddress() + "/wystaw", HttpMethod.POST);
+        //then
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+    }
+
+    @Test
     void shouldReturn4xxStatusAndExceptionWhenPeselIsNotInTheDatabase() throws Exception {
         //when
         ResponseEntity<String> response = ResponseEntityCreator.createForMandate(
@@ -63,145 +73,6 @@ public class MandateControllerIT {
         assertTrue(response.getStatusCode().is4xxClientError());
     }
 
-    @Test
-    void shouldReturn4xxStatusAndExceptionWhenPersonIsNull() throws Exception {
-        //when
-        ResponseEntity<String> response = ResponseEntityCreator.createForMandate("123", "2022-05-10T23:57:58",
-                "", "10", "100", createServerAddress() + "/wystaw", HttpMethod.POST);
-
-        String message = "[\"Niepoprawny numer PESEL\"]";
-        //then
-        assertEquals(message, response.getBody());
-        assertTrue(response.getStatusCode().is4xxClientError());
-    }
-
-    @Test
-    void shouldReturn4xxStatusAndExceptionWhenPeselIsWrong() throws Exception {
-        //when
-        ResponseEntity<String> response = ResponseEntityCreator.createForMandate("123", "2022-05-10T23:57:58",
-                "", "10", "100", createServerAddress() + "/wystaw", HttpMethod.POST);
-
-        String message = "[\"Niepoprawny numer PESEL\"]";
-        //then
-        assertEquals(message, response.getBody());
-        assertTrue(response.getStatusCode().is4xxClientError());
-    }
-
-    @Test
-    void shouldReturn4xxStatusAndExceptionWhenPeselIsEmpty() throws Exception {
-        //when
-        ResponseEntity<String> response = ResponseEntityCreator.createForMandate("", "2022-05-10T23:57:58",
-                "", "10", "100", createServerAddress() + "/wystaw", HttpMethod.POST);
-
-        String message = "[\"Niepoprawny numer PESEL\"]";
-        //then
-        assertEquals(message, response.getBody());
-        assertTrue(response.getStatusCode().is4xxClientError());
-    }
-
-
-    @Test
-    void shouldReturn4xxStatusAndExceptionWhenDateTimeIsEmpty() throws Exception {
-        //when
-        ResponseEntity<String> response = ResponseEntityCreator.createForMandate("94051913613", "",
-                "", "10", "100", createServerAddress() + "/wystaw", HttpMethod.POST);
-
-        String message = "[\"Data nie może być pusta\"]";
-        //then
-        assertEquals(message, response.getBody());
-        assertTrue(response.getStatusCode().is4xxClientError());
-    }
-
-    @Test
-    void shouldReturn4xxStatusAndExceptionWhenDateTimeIsFromFuture() throws Exception {
-        //when
-        String dateTimePlusOneDay = LocalDateTime.now().plusDays(1).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        ResponseEntity<String> response = ResponseEntityCreator.createForMandate("94051913613", dateTimePlusOneDay,
-                "", "10", "100", createServerAddress() + "/wystaw", HttpMethod.POST);
-
-        String message = "[\"Mandat nie może mieć przyszłej daty wystawienia\"]";
-        //then
-        assertEquals(message, response.getBody());
-        assertTrue(response.getStatusCode().is4xxClientError());
-    }
-
-    @Test
-    void shouldReturn4xxStatusAndExceptionWhenPointsIsAboveFifteen() throws Exception {
-        //when
-        ResponseEntity<String> response = ResponseEntityCreator.createForMandate(
-                "94051913613", "2022-05-10T23:57:58",
-                "", "20", "100", createServerAddress() + "/wystaw", HttpMethod.POST);
-
-        String message = "[\"Maksymalna ilość punktów dla wykroczenia to 15\"]";
-        //then
-        assertEquals(message, response.getBody());
-        assertTrue(response.getStatusCode().is4xxClientError());
-    }
-
-    @Test
-    void shouldReturn4xxStatusAndExceptionWhenPointsIsUnderZero() throws Exception {
-        //when
-        ResponseEntity<String> response = ResponseEntityCreator.createForMandate(
-                "94051913613", "2022-05-10T23:57:58",
-                "", "-10", "100", createServerAddress() + "/wystaw", HttpMethod.POST);
-
-        String message = "[\"Minimalna ilość punktów dla wykroczenia to 1\"]";
-        //then
-        assertEquals(message, response.getBody());
-        assertTrue(response.getStatusCode().is4xxClientError());
-    }
-
-    @Test
-    void shouldReturn4xxStatusAndExceptionWhenPointsIsEmpty() throws Exception {
-        //when
-        ResponseEntity<String> response = ResponseEntityCreator.createForMandate(
-                "94051913613", "2022-05-10T23:57:58",
-                "", "", "100", createServerAddress() + "/wystaw", HttpMethod.POST);
-
-        String message = "[\"Ilośc punktów nie może być pusta\"]";
-        //then
-        assertEquals(message, response.getBody());
-        assertTrue(response.getStatusCode().is4xxClientError());
-    }
-
-    @Test
-    void shouldReturn4xxStatusAndExceptionWhenAmountIsAboveFiveThousand() throws Exception {
-        //when
-        ResponseEntity<String> response = ResponseEntityCreator.createForMandate(
-                "94051913613", "2022-05-10T23:57:58",
-                "", "10", "6000", createServerAddress() + "/wystaw", HttpMethod.POST);
-
-        String message = "[\"Maksymalna kwota mandatu to 5000 pln\"]";
-        //then
-        assertEquals(message, response.getBody());
-        assertTrue(response.getStatusCode().is4xxClientError());
-    }
-
-    @Test
-    void shouldReturn4xxStatusAndExceptionWhenAmountIsUnderOne() throws Exception {
-        //when
-        ResponseEntity<String> response = ResponseEntityCreator.createForMandate(
-                "94051913613", "2022-05-10T23:57:58",
-                "", "10", "-100", createServerAddress() + "/wystaw", HttpMethod.POST);
-
-        String message = "[\"Minimalna kwota mandatu to 1 pln\"]";
-        //then
-        assertEquals(message, response.getBody());
-        assertTrue(response.getStatusCode().is4xxClientError());
-    }
-
-    @Test
-    void shouldReturn4xxStatusAndExceptionWhenAmountIsEmpty() throws Exception {
-        //when
-        ResponseEntity<String> response = ResponseEntityCreator.createForMandate(
-                "94051913613", "2022-05-10T23:57:58",
-                "", "10", "", createServerAddress() + "/wystaw", HttpMethod.POST);
-
-        String message = "[\"Kwota nie może być pusta\"]";
-        //then
-        assertEquals(message, response.getBody());
-        assertTrue(response.getStatusCode().is4xxClientError());
-    }
 
     @Test
     void shouldReturn4xxStatusAndExceptionWhenSameMandateExistInDB() throws URISyntaxException {
