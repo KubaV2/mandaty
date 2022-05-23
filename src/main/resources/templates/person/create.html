@@ -74,7 +74,7 @@
 
                 <input type="hidden" name="points" th:field="*{points}" id="tbFormControll"
                        class="form-control mb-4 col-4">
-                <p class="alert alert-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
+                <p class="alert alert-danger" th:if="${#fields.hasErrors('points')}" th:errors="*{points}"></p>
 
                 <button type="submit" class="btn btn-primary col-2"> Dodaj</button>
             </form>
